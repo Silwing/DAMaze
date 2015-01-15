@@ -1,0 +1,27 @@
+#BlueJ class context
+comment0.params=world
+comment0.target=void\ addedToWorld(greenfoot.World)
+comment1.params=
+comment1.target=void\ act()
+comment1.text=\r\n\ Act\ -\ do\ whatever\ the\ Player\ wants\ to\ do.\ This\ method\ is\ called\ whenever\r\n\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\r\n
+comment10.params=xDiff\ yDiff
+comment10.target=boolean\ isTouchingVertical(int,\ int)
+comment11.params=
+comment11.target=void\ checkMoveKeys()
+comment2.params=dmg
+comment2.target=void\ takeDamage(int)
+comment3.params=
+comment3.target=void\ checkSlotKeys()
+comment4.params=
+comment4.target=void\ checkCollectibles()
+comment5.params=
+comment5.target=boolean\ isTouchingSouthWall()
+comment6.params=
+comment6.target=boolean\ isTouchingNorthWall()
+comment7.params=
+comment7.target=boolean\ isTouchingWestWall()
+comment8.params=
+comment8.target=boolean\ isTouchingEastWall()
+comment9.params=xDiff\ yDiff
+comment9.target=boolean\ isTouchingHorizontal(int,\ int)
+numComments=12

@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.params=lvlWidth\ lvlHeight\ cellSize
+comment0.target=BoxedLevel(int,\ int,\ int)
+comment0.text=\r\n\ Constructor\ for\ objects\ of\ class\ BoxedLevel.\r\n\ \r\n
+comment1.params=object\ x\ y
+comment1.target=void\ addObjectToGrid(greenfoot.Actor,\ int,\ int)
+numComments=2

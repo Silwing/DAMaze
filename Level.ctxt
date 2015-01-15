@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.params=lvlWidth\ lvlHeight\ cellSize
+comment0.target=Level(int,\ int,\ int)
+comment0.text=\r\n\ Constructor\ for\ objects\ of\ class\ Level.\r\n\ \r\n
+comment1.params=object\ x\ y
+comment1.target=void\ addObjectToGrid(greenfoot.Actor,\ int,\ int)
+comment2.params=object\ slot
+comment2.target=void\ addObjectToHUD(greenfoot.Actor,\ int)
+comment3.params=x\ y\ length
+comment3.target=void\ addHorizontalWall(int,\ int,\ int)
+comment4.params=x\ y\ length
+comment4.target=void\ addVerticalWall(int,\ int,\ int)
+numComments=5
