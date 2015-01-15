@@ -11,11 +11,12 @@ public class ItemSlot extends Actor
     private static int slotCounter = 1;
     
     private Collectible item = null;
-    private int slotNo = slotCounter++;
+    private int slotNo;
     private boolean selected = false;
     private GreenfootImage unselectedImage, selectedImage;
     
-    public ItemSlot() {
+    public ItemSlot(int no) {
+        slotNo = no;
         unselectedImage = getImage();
         selectedImage = new GreenfootImage("selectedFrame.png");
     }
@@ -26,17 +27,28 @@ public class ItemSlot extends Actor
     
     public void setItem(Collectible newItem) {
         item = newItem;
-        getWorld().addObject(newItem, getX(), getY());
-    }
-    
-    public void selectSlot() {
-        if(!selected) {
-            selected = true;
-            setImage(selectedImage);
+        if(item != null) {
+            getWorld().addObject(newItem, getX(), getY());
         }
     }
     
-    public void deselectSlot() {
+    public Collectible getItem() {
+        return item;
+    }
+    
+    public void selectSlot(Player selector) {
+        if(!selected) {
+            selected = true;
+            setImage(selectedImage);
+            if(hasItem()) {
+                if(item.selectItem(selector)) {
+                    setItem(null);
+                }
+            }
+        }
+    }
+    
+    public void deselectSlot(Player selector) {
         if(selected) {
             selected = false;
             setImage(unselectedImage);

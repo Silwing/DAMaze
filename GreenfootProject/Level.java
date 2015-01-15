@@ -10,6 +10,7 @@ import java.util.*;
 public class Level extends World
 {
     private int lvlWidth, lvlHeight;
+    private boolean gameOver = false;
     /**
      * Constructor for objects of class Level.
      * 
@@ -40,5 +41,14 @@ public class Level extends World
         for(int j = 0; j < length; j++) {
             addObjectToGrid(new Wall(), x, y+j);
         }
+    }
+    
+    public void gameOver() {
+        gameOver = true;
+        addObject(new GameOver(), lvlWidth*Wall.wallWidth/2, (lvlHeight*Wall.wallHeight+22)/2); 
+    }
+    
+    public boolean isGameOver() {
+        return gameOver;
     }
 }

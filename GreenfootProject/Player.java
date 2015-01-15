@@ -12,7 +12,7 @@ public class Player extends GridActor
     private List<Collectible> items = new ArrayList<Collectible>();
     private Map<Integer, ItemSlot> itemSlots;
     private ItemSlot selectedSlot;
-    private int health = 20;
+    private int health = 20, fistDamage = 1, hitPercentage = 10;
     private List<Health> healthBar = new ArrayList<Health>();
     private Level level;
     
@@ -21,8 +21,8 @@ public class Player extends GridActor
         level = (Level)world;
         itemSlots = new HashMap<Integer,ItemSlot>();
         for(int i = 1; i <= 9; i++) {
-            ItemSlot s = new ItemSlot();
-            itemSlots.put(s.getSlotNo(), s);
+            ItemSlot s = new ItemSlot(i);
+            itemSlots.put(i, s);
             level.addObjectToHUD(s, i);
         }
         
@@ -39,16 +39,50 @@ public class Player extends GridActor
      */
     public void act() 
     {
-        checkCollectibles();
-        checkSlotKeys();
-        checkMoveKeys();
+        if(!level.isGameOver()) {
+            checkCollectibles();
+            checkSlotKeys();
+            checkAttackKeys();
+            checkMoveKeys();
+        }
+    }
+    
+    public void checkAttackKeys() {
+        if(Greenfoot.isKeyDown("space") && isTouching(Enemy.class)) {
+            if(Greenfoot.getRandomNumber(100) < hitPercentage) {
+                Enemy e = (Enemy)getOneIntersectingObject(Enemy.class);
+                if(selectedSlot == null || !selectedSlot.hasItem() || !(selectedSlot.getItem() instanceof Weapon)){
+                    e.takeDamage(fistDamage);
+                } else {
+                    Weapon w = (Weapon)selectedSlot.getItem();
+                    e.takeDamage(w.getDamage());
+                }
+            }
+        }
     }
     
     public void takeDamage(int dmg) {
         ListIterator<Health> iter = healthBar.listIterator(healthBar.size());
         while(dmg > 0) {
-            Health cur = iter.previous();
-            dmg = cur.takeDamage(dmg);
+            if(iter.hasPrevious()) {
+                Health cur = iter.previous();
+                dmg = cur.takeDamage(dmg);
+            } else {
+                level.gameOver();
+                break;
+            }
+        }
+    }
+    
+    public void heal(int heal) {
+        ListIterator<Health> iter = healthBar.listIterator();
+        while(heal > 0) {
+            if(iter.hasNext()) {
+                Health cur = iter.next();
+                heal = cur.heal(heal);
+            } else {
+                break;
+            }
         }
     }
     
@@ -60,10 +94,10 @@ public class Player extends GridActor
            
                 for(Map.Entry<Integer,ItemSlot> entry : itemSlots.entrySet()) {
                     if(key == entry.getKey()) {
-                        entry.getValue().selectSlot();
+                        entry.getValue().selectSlot(this);
                         selectedSlot = entry.getValue();
                     } else {
-                        entry.getValue().deselectSlot();
+                        entry.getValue().deselectSlot(this);
                     }
                 }
             } catch(NumberFormatException ex) {}

@@ -9,7 +9,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class Dagger extends Weapon
 {
     public Dagger() {
-        damage = 1;
+        damage = 2;
     }
     
     /**

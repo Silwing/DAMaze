@@ -8,7 +8,8 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Health extends Actor
 {
-    private int health = 2;
+    private int maxHealth = 2;
+    private int health = maxHealth;
     private GreenfootImage fullHealthImg, halfHealthImg, noHealthImg;
     
     public Health() {
@@ -39,5 +40,23 @@ public class Health extends Actor
         setImage(halfHealthImg);
         health -= dmg;
         return 0;
+    }
+    
+    public int heal(int heal) {
+        if(heal <= 0) throw new IllegalArgumentException("Heal amount should be larger than 0");
+        
+        int canHeal = maxHealth-health;
+        if(heal > canHeal) {
+            health = maxHealth;
+            setImage(fullHealthImg);
+            return (heal - canHeal);
+        } else {
+            health += heal;
+            if(health == maxHealth)
+                setImage(fullHealthImg);
+            else
+                setImage(halfHealthImg);
+            return 0;
+        }
     }
 }
