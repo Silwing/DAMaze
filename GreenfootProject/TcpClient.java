@@ -27,7 +27,6 @@ public class TcpClient
 
     public void connect(String host, int port)
     {
-        System.out.println("Connecting...");
         try {
             socket = new Socket(host, port);
             out = new PrintWriter(socket.getOutputStream(), true);
