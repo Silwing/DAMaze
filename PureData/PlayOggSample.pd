@@ -1,0 +1,16 @@
+#N canvas 486 395 450 300 10;
+#X obj 64 29 inlet;
+#X obj 63 56 trigger b b;
+#X obj 127 92 symbol \$1;
+#X msg 62 95 start;
+#X obj 62 188 oggread~;
+#X msg 131 124 open \$1;
+#X obj 62 239 outlet~;
+#X connect 0 0 1 0;
+#X connect 1 0 3 0;
+#X connect 1 1 2 0;
+#X connect 2 0 5 0;
+#X connect 3 0 4 0;
+#X connect 4 0 6 0;
+#X connect 4 1 6 0;
+#X connect 5 0 4 0;

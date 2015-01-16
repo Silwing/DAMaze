@@ -8,6 +8,10 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class GridActor extends Actor
 {
+    
+    public GridActor() {
+    }
+    
     /**
      * Act - do whatever the GridActor wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.

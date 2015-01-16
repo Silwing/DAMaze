@@ -9,6 +9,22 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class Enemy extends GridActor
 {
     protected int attack, health, hitPercentage;
+    protected TcpClient pureData;
+    protected String damageSound;
+    
+    public Enemy() {
+        pureData = new TcpClient();
+    }
+    
+    @Override
+    protected void addedToWorld(World world) {
+        pureData.connect();
+    }
+    
+    // Override in subclasses to do something when dying
+    protected void removedFromWorld() {
+        pureData.disconnect();
+    }
     
     /**
      * Act - do whatever the Enemy wants to do. This method is called whenever
@@ -18,6 +34,8 @@ public class Enemy extends GridActor
     {
         if(!((Level)getWorld()).isGameOver()) {
             attackNearbyPlayer();
+        } else {
+            removedFromWorld();
         }
     }
     
@@ -31,8 +49,10 @@ public class Enemy extends GridActor
     }
     
     public void takeDamage(int dmg) {
+        pureData.send("effect " + damageSound + " " + dmg);
         if(dmg >= health) {
             getWorld().removeObject(this);
+            removedFromWorld();
         } else {
             health -= dmg;
         }

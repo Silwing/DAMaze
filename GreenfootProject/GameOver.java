@@ -8,8 +8,11 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class GameOver extends Actor
 {
-    public GameOver() {
-        System.out.println("Game over...");
+    @Override
+    protected void addedToWorld(World world) {
+        TcpClient pureData = new TcpClient();
+        pureData.connect();
+        pureData.send("interface gameOver");
     }
     
     /**
@@ -19,7 +22,10 @@ public class GameOver extends Actor
     public void act() 
     {
         if(Greenfoot.mouseClicked(this)) {
-            Greenfoot.setWorld(new Level0());
+            getWorld().stopped(); // appearantly this is not run when a new world is set
+            Level newWorld = new Level0();
+            Greenfoot.setWorld(newWorld);
+            newWorld.started();
         }
     }    
 }

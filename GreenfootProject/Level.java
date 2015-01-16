@@ -11,6 +11,8 @@ public class Level extends World
 {
     private int lvlWidth, lvlHeight;
     private boolean gameOver = false;
+    protected TcpClient pureData;
+    
     /**
      * Constructor for objects of class Level.
      * 
@@ -20,6 +22,7 @@ public class Level extends World
         super(lvlWidth*Wall.wallWidth, lvlHeight*Wall.wallHeight+22, cellSize);
         this.lvlWidth = lvlWidth;
         this.lvlHeight = lvlHeight;
+        this.pureData = new TcpClient();
     }
     
     // Grid size is based on wall size
@@ -50,5 +53,15 @@ public class Level extends World
     
     public boolean isGameOver() {
         return gameOver;
+    }
+    
+    @Override
+    public void started() {
+        pureData.connect();
+    }
+    
+    @Override
+    public void stopped() {
+        pureData.disconnect();
     }
 }

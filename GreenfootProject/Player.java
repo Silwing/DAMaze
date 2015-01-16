@@ -15,6 +15,12 @@ public class Player extends GridActor
     private int health = 20, fistDamage = 1, hitPercentage = 10;
     private List<Health> healthBar = new ArrayList<Health>();
     private Level level;
+    private TcpClient pureData;
+    
+    public Player() {
+        pureData = new TcpClient();
+        pureData.connect();
+    }
     
     @Override
     protected void addedToWorld(World world) {
@@ -63,11 +69,13 @@ public class Player extends GridActor
     
     public void takeDamage(int dmg) {
         ListIterator<Health> iter = healthBar.listIterator(healthBar.size());
+        pureData.send("effect PlayerHurt");
         while(dmg > 0) {
             if(iter.hasPrevious()) {
                 Health cur = iter.previous();
                 dmg = cur.takeDamage(dmg);
             } else {
+                pureData.send("effect PlayerDie");
                 level.gameOver();
                 break;
             }
@@ -96,6 +104,7 @@ public class Player extends GridActor
                     if(key == entry.getKey()) {
                         entry.getValue().selectSlot(this);
                         selectedSlot = entry.getValue();
+                        pureData.send("interface selectItem");
                     } else {
                         entry.getValue().deselectSlot(this);
                     }
@@ -174,6 +183,7 @@ public class Player extends GridActor
         boolean right = Greenfoot.isKeyDown("right");
         boolean up = Greenfoot.isKeyDown("up");
         boolean down = Greenfoot.isKeyDown("down");
+        
         // north-west
         if(left && up && !(right || down)) {
             if(isTouchingNorthWall())
@@ -245,6 +255,12 @@ public class Player extends GridActor
                 setRotation(90);
                 move(5);
             }
+        }
+        
+        if(up || down || left || right) {
+            pureData.send("effect StartRun");
+        } else {
+            pureData.send("effect StopRun");
         }
     }
     
