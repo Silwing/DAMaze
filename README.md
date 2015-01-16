@@ -2,6 +2,7 @@
 Small maze game made for the course Introduction to Digital Audio.
 
 ## Credit
+### Sounds
 * Footstep sound: http://www.freesound.org/people/sinatra314/sounds/58453/
 * Win sound: http://opengameart.org/content/oldschool-win-and-die-jump-and-run-sounds
 * Player hit and die sounds: http://opengameart.org/content/5-hit-sounds-dying
@@ -15,7 +16,7 @@ Small maze game made for the course Introduction to Digital Audio.
 * Select Item sound: http://opengameart.org/content/100-plus-game-sound-effects-wavoggm4a
 * Theme music: http://www.freesound.org/people/joshuaempyre/sounds/251461/
 
-
+### Art
 * Health bar icon: http://opengameart.org/content/roguelikerpg-icons
 * Collectible icons: http://opengameart.org/content/roguelikerpg-items
 * Player and Goblin icons: http://opengameart.org/content/roguelike-monsters
