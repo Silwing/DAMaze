@@ -68,6 +68,7 @@ public class Level0 extends BoxedLevel
         addObjectToGrid(new Sword(), 10, 7);
         addObjectToGrid(new Goblin(), 4, 9);
         addObjectToGrid(new HealingPotion(), 10, 13);
+        addObjectToGrid(new Boss(), 21, 12);
         
     }
     

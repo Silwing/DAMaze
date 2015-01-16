@@ -1,7 +1,7 @@
 #N canvas 102 276 691 535 10;
 #X obj 28 100 print;
 #X floatatom 204 97 5 0 0 0 - - -;
-#X obj 256 64 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+#X obj 256 64 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 7
 7;
 #X text 287 64 Any clients connected?;
 #X text 250 96 Number of clients connected;
@@ -39,7 +39,7 @@
 #X connect 3 0 2 0;
 #X connect 4 0 2 1;
 #X restore 386 179 pd affect;
-#N canvas 517 85 650 300 effect 1;
+#N canvas 517 85 812 300 effect 1;
 #N canvas 1381 435 336 286 StartStopFootsteps 0;
 #X obj 31 244 throw~ audioOut;
 #X obj 51 17 inlet;
@@ -83,33 +83,21 @@
 #X restore 253 161 pd GoblinHurt;
 #X floatatom 247 122 5 1 5 0 - - -;
 #X text 290 121 Damage value;
-#X obj 86 72 route StartRun StopRun GoblinHurt PlayerHurt PlayerDie
-;
 #N canvas 320 361 492 444 PlayerHurt 1;
 #X obj 114 34 inlet;
-#X obj 73 320 throw~ audioOut;
+#X obj 78 269 throw~ audioOut;
 #X floatatom 99 132 5 0 0 0 - - -;
 #X obj 101 76 random 5;
 #X obj 101 106 + 1;
-#X obj 103 160 makefilename hit%d.wav;
-#X obj 89 194 trigger b b;
-#X obj 200 205 symbol;
-#X msg 91 250 start;
-#X obj 90 284 readsf~;
-#X msg 154 247 open \$1;
-#X obj 322 209 PlaySample;
+#X obj 131 177 makefilename hit%d.wav;
+#X obj 76 221 PlaySample;
 #X connect 0 0 3 0;
 #X connect 2 0 5 0;
-#X connect 2 0 11 0;
+#X connect 2 0 6 0;
 #X connect 3 0 4 0;
 #X connect 4 0 2 0;
-#X connect 5 0 11 1;
-#X connect 6 0 8 0;
-#X connect 6 1 7 0;
-#X connect 7 0 10 0;
-#X connect 8 0 9 0;
-#X connect 9 0 1 0;
-#X connect 10 0 9 0;
+#X connect 5 0 6 1;
+#X connect 6 0 1 0;
 #X restore 391 162 pd PlayerHurt;
 #N canvas 1119 313 450 300 PlayerDie 1;
 #X obj 122 23 inlet;
@@ -122,24 +110,36 @@
 -1 -1;
 #X obj 384 125 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X connect 1 0 7 0;
+#X obj 189 60 route StartRun StopRun GoblinHurt PlayerHurt PlayerDie
+BossHurt;
+#N canvas 861 450 450 300 BossHurt 1;
+#X obj 119 67 inlet;
+#X obj 121 121 PlaySample bossHurt.wav;
+#X obj 120 192 throw~ audioOut;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X restore 639 164 pd BossHurt;
+#X obj 634 120 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X connect 1 0 11 0;
 #X connect 2 0 0 0;
 #X connect 3 0 0 1;
 #X connect 5 0 4 0;
-#X connect 7 0 2 0;
-#X connect 7 1 3 0;
-#X connect 7 2 5 0;
-#X connect 7 3 11 0;
-#X connect 7 4 10 0;
-#X connect 10 0 9 0;
-#X connect 11 0 8 0;
+#X connect 9 0 8 0;
+#X connect 10 0 7 0;
+#X connect 11 0 2 0;
+#X connect 11 1 3 0;
+#X connect 11 2 5 0;
+#X connect 11 3 10 0;
+#X connect 11 4 9 0;
+#X connect 11 5 13 0;
+#X connect 13 0 12 0;
 #X restore 88 182 pd effect;
 #X obj 106 138 route effect zone interface affect;
 #N canvas 447 48 450 300 zone 1;
 #X obj 98 27 inlet;
 #X obj 81 143 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
-#X obj 83 93 route StartGoblin StopGoblin;
 #X obj 128 140 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #N canvas 1384 546 450 300 Goblin 1;
@@ -151,11 +151,29 @@
 #X connect 1 0 2 1;
 #X connect 2 0 3 0;
 #X restore 82 194 pd Goblin;
+#X obj 83 93 route StartGoblin StopGoblin StartBoss StopBoss;
+#X obj 194 139 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 250 136 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#N canvas 911 307 450 250 Boss 1;
+#X obj 99 40 inlet;
+#X obj 183 39 inlet;
+#X obj 99 139 LoopSample boss-zone.wav;
+#X obj 98 200 throw~ audioOut;
 #X connect 0 0 2 0;
-#X connect 1 0 4 0;
-#X connect 2 0 1 0;
-#X connect 2 1 3 0;
-#X connect 3 0 4 1;
+#X connect 1 0 2 1;
+#X connect 2 0 3 0;
+#X restore 189 191 pd Boss;
+#X connect 0 0 4 0;
+#X connect 1 0 3 0;
+#X connect 2 0 3 1;
+#X connect 4 0 1 0;
+#X connect 4 1 2 0;
+#X connect 4 2 5 0;
+#X connect 4 3 6 0;
+#X connect 5 0 7 0;
+#X connect 6 0 7 1;
 #X restore 161 181 pd zone;
 #N canvas 203 505 450 300 interface 1;
 #X obj 104 33 inlet;
@@ -172,7 +190,6 @@
 #X connect 2 0 1 1;
 #X connect 4 0 1 0;
 #X restore 99 151 pd selectItem;
-#X obj 103 74 route selectItem gameOver;
 #X obj 198 117 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #N canvas 858 452 450 300 gameOver 1;
@@ -182,11 +199,23 @@
 #X connect 0 0 2 0;
 #X connect 2 0 1 0;
 #X restore 215 148 pd gameOver;
-#X connect 0 0 3 0;
+#X obj 103 74 route selectItem gameOver gameWin;
+#N canvas 619 670 450 300 gameWin 1;
+#X obj 96 49 inlet;
+#X obj 97 96 PlaySample gameWin.wav;
+#X obj 94 155 throw~ audioOut;
+#X connect 0 0 1 0;
 #X connect 1 0 2 0;
-#X connect 3 0 1 0;
-#X connect 3 1 4 0;
-#X connect 4 0 5 0;
+#X restore 340 149 pd gameWin;
+#X obj 321 117 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X connect 0 0 5 0;
+#X connect 1 0 2 0;
+#X connect 3 0 4 0;
+#X connect 5 0 1 0;
+#X connect 5 1 3 0;
+#X connect 5 2 7 0;
+#X connect 7 0 6 0;
 #X restore 257 181 pd interface;
 #X connect 5 0 6 0;
 #X connect 5 0 6 1;

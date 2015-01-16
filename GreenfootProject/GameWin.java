@@ -1,17 +1,16 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class GameOver here.
+ * Write a description of class GameWin here.
  * 
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class GameOver extends GameEnd
+public class GameWin extends GameEnd
 {
-    @Override
-    protected void addedToWorld(World world) {
+    public GameWin() {
         TcpClient pureData = new TcpClient();
         pureData.connect();
-        pureData.send("interface gameOver");
-    }  
+        pureData.send("interface gameWin");
+    }
 }

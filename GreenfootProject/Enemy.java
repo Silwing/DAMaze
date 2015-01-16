@@ -10,7 +10,8 @@ public class Enemy extends GridActor
 {
     protected int attack, health, hitPercentage;
     protected TcpClient pureData;
-    protected String damageSound;
+    protected String damageSound, zoneSound;
+    private boolean playerInRangeLast = false;
     
     public Enemy() {
         pureData = new TcpClient();
@@ -21,8 +22,11 @@ public class Enemy extends GridActor
         pureData.connect();
     }
     
-    // Override in subclasses to do something when dying
+    // What to when we die
     protected void removedFromWorld() {
+        if(playerInRangeLast) {
+            pureData.send("zone Stop" + zoneSound);
+        }
         pureData.disconnect();
     }
     
@@ -33,9 +37,21 @@ public class Enemy extends GridActor
     public void act() 
     {
         if(!((Level)getWorld()).isGameOver()) {
+            playZoneSound();
             attackNearbyPlayer();
         } else {
             removedFromWorld();
+        }
+    }
+    
+    protected void playZoneSound() {
+        boolean playerInRange = getObjectsInRange(60, Player.class).size() > 0;
+        if(!playerInRangeLast && playerInRange) {
+            pureData.send("zone Start" + zoneSound);
+            playerInRangeLast = true;
+        } else if (playerInRangeLast && !playerInRange) {
+            pureData.send("zone Stop" + zoneSound);
+            playerInRangeLast = false;
         }
     }
     
@@ -51,8 +67,8 @@ public class Enemy extends GridActor
     public void takeDamage(int dmg) {
         pureData.send("effect " + damageSound + " " + dmg);
         if(dmg >= health) {
-            getWorld().removeObject(this);
             removedFromWorld();
+            getWorld().removeObject(this);
         } else {
             health -= dmg;
         }

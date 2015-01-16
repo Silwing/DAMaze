@@ -51,6 +51,11 @@ public class Level extends World
         addObject(new GameOver(), lvlWidth*Wall.wallWidth/2, (lvlHeight*Wall.wallHeight+22)/2); 
     }
     
+    public void gameWin() {
+        gameOver = true;
+        addObject(new GameWin(), lvlWidth*Wall.wallWidth/2, (lvlHeight*Wall.wallHeight+22)/2);
+    }
+    
     public boolean isGameOver() {
         return gameOver;
     }
